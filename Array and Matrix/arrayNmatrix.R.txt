@@ -1,0 +1,10 @@
+m_c=100
+m_a=80
+f_c=120
+f_a=100
+bp_c = c("blue","pink")
+apes_types <- c("Healthy", "Sick", "Carrier")
+apes_gender <- c("Male","Female")
+val <- matrix(c((.15*m_c)+(.25*m_a),(.35*m_c)+(.30*m_a),(.5*m_c+.45*m_a),(.15*f_c)+(.25*f_a),(.35*f_c)+(.30*f_a),(.5*f_c+.45*f_a)), nrow = 2, ncol = 3, byrow = TRUE)
+barplot(val, main = "Health Distribution", names.arg = apes_types, col = bp_c)
+legend("topleft", apes_gender, cex = .6, fill =bp_c)

@@ -1,0 +1,88 @@
+#Insert data from file into data frame
+tData <- read.csv(file = 'C:/TitanicPassengers.csv')
+
+#1 - Number of rows and columns
+rowCount <- nrow(tData)
+colCount <- ncol(tData)
+cat ("Rows = ", rowCount, " Columns = ", colCount, "\n")
+
+#2 - Data Structure
+#print (" Data structure type => ")
+print(class (tData))
+
+#3 - Print our column headers
+print (colnames(tData))
+
+#4 - Change first column name from X to "UniqID"
+colnames(tData)[1] <- 'UniqID'
+print (colnames(tData))
+
+#5 - Print all categories of the passengerClass
+print(levels(tData$passengerClass))
+
+#6 - Summary function
+print(summary(tData))
+
+#7 - str( )
+print(str(tData))
+
+#8 
+femaleSrowCount <- subset(tData, (sex == 'female' & survived == 'yes'))
+print(nrow(femaleSrowCount))
+
+#8 - Male survivors
+maleSrowCount <- subset(tData, (sex == 'male' & survived == 'yes'))
+print(nrow(maleSrowCount))
+
+#9 - Print out how many of those who died were female 
+femaleDCount <- subset(tData, (sex == 'female' & survived == 'no'))
+print(nrow(femaleDCount))
+
+#9 - males 
+maleDCount <- subset(tData, (sex == 'male' & survived == 'no'))
+print(nrow(maleDCount))
+
+#10 - Print out how many under the age of 18 and female died
+fDied <- subset(tData, (sex == 'female' & age <= 18 & survived == 'no'))
+print (nrow(fDied))
+
+#11 Under 18 and male 
+mDied <- subset(tData, (sex == 'male' & age <= 18 & survived == 'no'))
+print (nrow(mDied))
+
+#12 Print out how many over 25 survived in first class, second class and third class
+surFirst <- subset(tData, (passengerClass == '1st' & age > 25 & survived == 'yes'))
+print (nrow(surFirst))
+
+surSecond <- subset(tData, (passengerClass == '2nd' & age > 25 & survived == 'yes' ))
+print (nrow(surSecond))
+
+surThird <- subset(tData, (passengerClass == '3rd' & age > 25 & survived == 'yes' ))
+print (nrow(surThird))
+
+#13 - Less 25 first / second and third
+sFirst <- subset(tData, (passengerClass == '1st' & age <= 25 ))
+print (nrow(sFirst))
+
+sSecond <- subset(tData, (passengerClass == '2nd' & age <= 25 ))
+print (nrow(sSecond))
+
+sThird <- subset(tData, (passengerClass == '3rd' & age <= 25 ))
+print(nrow(sThird))
+
+#14 Data frame slice with column names
+print(tData[c("survived", "age")])
+
+#15 Mean age of all survivors / #16 - Mean age of non-survivors
+meanAge <- aggregate(age ~ survived, tData, mean)
+print (meanAge)
+
+#17 Create a histogram of the age of all the passengers on the titanic - add color.
+hist(tp$age, col="blue" )
+#18	Create a plot of survived versus sex of the survivor - add color and a legend.
+counts <- table(tp$sex, tp$survived)
+barplot(counts, main="Survived sorted by sex", xlab="Number of Survived", col=c("darkblue","red"), legend = rownames(counts))
+#19	Create a scatter plot of age versus survivor - add color.
+plot(tp$age,tp$survived, main="Scatterplot",  xlab="Age ", ylab="Survivor", pch=19,col=c("darkblue","red") )
+#20 Create a scatter plot of age versus not a survivor - add color.
+plot(tp$sex,tp$survived, main="Scatterplot",  xlab="Sex ", ylab="Survivor", pch=19,col=c("darkblue","red") )

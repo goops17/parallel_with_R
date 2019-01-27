@@ -1,0 +1,2 @@
+library(MASS)
+plot(faithful$eruptions,faithful$waiting, main="Scatterplot ", ylab="Waiting ", xlab="Erruption", pch=19)

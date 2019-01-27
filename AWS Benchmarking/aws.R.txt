@@ -1,0 +1,40 @@
+library(doParallel)
+naturalProblem <- function(n) {
+  n=(n*(n+1)/2)^2 - (n * (n + 1) * (2*n + 1)) / 6
+  return(n)
+}
+resulPar<-0
+resulMc<-0
+no_cores <- detectCores()
+registerDoParallel(cores = no_cores)
+cl <- makeCluster(no_cores, type="FORK")
+for (i in 1:10000) {
+  ptime <- system.time(
+    {
+      parLapply(cl, 1:1000, naturalProblem)
+    })
+  resulPar<-c(ptime);
+  
+}
+stopCluster(cl)
+for (i in 1:10000) 
+{
+  ptime <- system.time(
+    {
+      mclapply(1:1000, naturalProblem, mc.cores = no_cores)
+    })
+  resulMc<-c(ptime);
+  
+}
+print(max(resulMc,na.rm=TRUE))
+print(min(resulMc,na.rm=TRUE))
+print(mean(resulMc,na.rm=TRUE))
+
+
+print(max(resulPar,na.rm=TRUE))
+print(min(resulPar,na.rm=TRUE))
+print(mean(resulPar,na.rm=TRUE))
+
+plot(resulMc,type = "o",col = "red", xlab = "X", ylab = "Time", 
+     main = "Benchmark")
+lines(resulPar, type = "o", col = "blue")
